@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>My Portfolio</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- GSAP for animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <!-- Three.js for 3D -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f9fafb;
+      color: #1f2937;
+    }
+    canvas#bgCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+    .primary-btn {
+      background: #0ea5a4;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+    .primary-btn:hover {
+      background: #0c8b8a;
+    }
+    .secondary-btn {
+      border: 2px solid #0ea5a4;
+      color: #0ea5a4;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+    .secondary-btn:hover {
+      background: #0ea5a4;
+      color: white;
+    }
+    .slider-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.3);
+      color: white;
+      border: none;
+      padding: 0.5rem;
+      cursor: pointer;
+      border-radius: 9999px;
+    }
+    .slider-btn:hover {
+      background: rgba(0,0,0,0.6);
+    }
+    .slider-btn.left { left: 10px; }
+    .slider-btn.right { right: 10px; }
+  </style>
+
+
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>موقعي المتجاوب</title>
+
+  <!-- خط عام للموقع -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      line-height: 1.6;
+      background-color: #f9f9f9;
+    }
+
+    /* Container */
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      background-color: #007BFF;
+      color: white;
+    }
+
+    .navbar .logo {
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    .navbar .menu a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: 500;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 60px 20px;
+      background-color: #e0f0ff;
+    }
+
+    .hero h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 1.2em;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #333;
+      color: white;
+      margin-top: 50px;
+    }
+
+    /* Responsive / Mobile First */
+    @media (max-width: 600px) {
+      .navbar {
+        flex-direction: column;
+        text-align: center;
+      }
+      .hero h1 {
+        font-size: 1.5em;
+      }
+      .hero p {
+        font-size: 1em;
+      }
+    }
+
+    @media (min-width: 601px) and (max-width: 1024px) {
+      .navbar {
+        flex-direction: row;
+      }
+    }
+
+    @media (min-width: 1025px) {
+      .navbar {
+        flex-direction: row;
+      }
+    }
+  </style>
+</head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="overflow-x-hidden">
+  <!-- Background 3D Canvas -->
+  <canvas id="bgCanvas"></canvas>
+
+  <!-- Navbar -->
+  <header class="flex justify-between items-center p-6">
+    <h1 class="text-2xl font-bold text-[#0ea5a4]">Webora</h1>
+    <nav class="space-x-6 hidden md:flex">
+      <a href="#about" class="hover:text-[#0ea5a4]">About</a>
+      <a href="#services" class="hover:text-[#0ea5a4]">Services</a>
+      <a href="#mywork" class="hover:text-[#0ea5a4]">My Work</a>
+      <a href="#contact" class="hover:text-[#0ea5a4]">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="min-h-screen flex flex-col justify-center items-center text-center px-4">
+    <h1 class="text-6xl font-extrabold text-black mb-6" id="heroTitle">Welcome to My Portfolio</h1>
+    <p class="text-lg max-w-2xl mb-6" id="heroSubtitle">I create modern, minimal, and professional designs & code experiences that impress clients.</p>
+    <div class="flex space-x-4">
+      <a href="#mywork" class="primary-btn">See My Work</a>
+      <a href="#contact" class="secondary-btn">Contact Me</a>
+    </div>
+  </section>
+
+  <!-- About Me -->
+  <section id="about" class="py-20 bg-white text-center">
+    <h2 class="text-3xl font-semibold mb-6">About Us</h2>
+    <p class="max-w-2xl mx-auto">Welcome to Webora 👋
+
+We are a creative digital agency specialized in web design, development, and branding. Our goal is to deliver professional and modern solutions that help businesses grow, stand out, and connect with their audience.
+At Webora, we believe that every project should combine:
+Simplicity & clarity for better user experience.
+Unique & modern design to reflect your brand identity.
+Responsive development to work seamlessly on all devices.
+Our mission is to transform ideas into powerful digital experiences that impress clients and achieve real results.
+🚀 With Webora, you don’t just get a website — you get a complete online presence that inspires trust and success.</p>
+  </section>
+
+  <!-- Services -->
+  <section id="services" class="py-20 text-center">
+    <h2 class="text-3xl font-semibold mb-10">Services</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+      <div class="p-6 rounded-2xl shadow-lg bg-white">
+        <h3 class="text-xl font-bold mb-2">🔹 Web Design & Branding</h3>
+        <p>      At Webora, we create modern and elegant website designs that reflect your brand identity.
+             From logos and color schemes to complete brand guidelines, we ensure your business stands
+              out with a professional image We design with clarity and creativity to keep users engaged..   </p>
+      </div>
+      <div class="p-6 rounded-2xl shadow-lg bg-white">
+        <h3 class="text-xl font-bold mb-2">
+🔹 Web Development & E-Commerce</h3>
+        <p>We build responsive and secure websites using the latest technologies. Whether you need a company website 
+or a professional online store,
+ we deliver smooth user experiences with fast performance and integrated payment solutions.</p>
+      </div>
+      <div class="p-6 rounded-2xl shadow-lg bg-white">
+        <h3 class="text-xl font-bold mb-2">🔹 SEO, Marketing & Support</h3>
+        <p>                             .
+
+We optimize your website to appear on top of search engines and reach the right audience. Our services also include digital marketing strategies and continuous maintenance & support to keep your website updated and performing at its best.         </p>
+        </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section id="mywork" class="py-10 bg-gray-100">
+  <div class="container mx-auto px-4">
+    <h1 class="text-3xl font-bold text-center mb-8">My Work</h1>
+
+    <!-- كروت -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- كارت -->
+      <div class="bg-white shadow-lg rounded-xl overflow-hidden">
+        <div class="relative image-slider">
+          <div class="slides">
+            <img src="d9b38e07-ce8a-461d-8d52-010738d20695.jpg" alt="Modern website design with clean layout and blue accent colors">
+                        <img src="dd684b4f-aa98-463e-a1cb-5db4be52a633.jpg" alt="Responsive mobile interface with intuitive navigation">
+                        <img src="3a52d584-6372-463c-bdb2-1800f81718c3.jpg" alt="Dashboard with analytics charts and metrics">
+                        <img src="f4e6ef1c-4b2d-47f3-9f14-f1e5c3a5e800.jpg" alt="E-commerce product page with shopping cart">
+                    </div>
+          <!-- أزرار -->
+          <button class="prev absolute top-1/2 left-2 -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full">&#10094;</button>
+          <button class="next absolute top-1/2 right-2 -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full">&#10095;</button>
+        </div>
+        <div class="p-4">
+          <h2 class="text-xl font-semibold mb-2">🏡 Real Estate Website</h2>
+          <p class="text-gray-600 text-sm">
+             A professional real estate site with property listings, search filters, and contact forms, fully responsive.
+          </p>
+        </div>
+      </div>
+
+      <!-- كارت -->
+      <div class="bg-white shadow-lg rounded-xl overflow-hidden">
+        <div class="relative image-slider">
+          <div class="slides">
+            <img src="c71e413b-7e69-4dfe-a835-3ad713ac8c7f.jpg" alt="Brand identity with logo and color palette">
+                        <img src="719f809e-58bd-4893-b85e-084dead4fccc.jpg" alt="Business card design with modern typography">
+                        <img src="9417d475-9b79-4a65-aa96-47145fd26866.jpg" alt="Product packaging design with minimalist aesthetic">
+                        <img src="fed8d5bc-c086-470b-b499-4336d9c14578.jpg" alt="Marketing brochure layout with compelling visuals">
+                    </div>
+          <!-- أزرار -->
+          <button class="prev absolute top-1/2 left-2 -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full">&#10094;</button>
+          <button class="next absolute top-1/2 right-2 -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full">&#10095;</button>
+        </div>
+        <div class="p-4">
+          <h2 class="text-xl font-semibold mb-2">🍽 Restaurant Website</h2>
+          <p class="text-gray-600 text-sm">
+             A responsive restaurant website with an interactive menu, high-quality images, and online table reservations.
+          </p>
+        </div>
+      </div>
+
+      <!-- كارت -->
+      <div class="bg-white shadow-lg rounded-xl overflow-hidden">
+        <div class="relative image-slider">
+              <div class="slides">
+          <img src="bbbbbbbbb.png" alt="Brand identity with logo and color palette">
+                        <img src="4a185f91-5f23-4da5-879a-744a90335a87.jpg" alt="Business card design with modern typography">
+                        <img src="8a7f9b71-e279-47c8-94e6-cfda4061113e.jpg" alt="Product packaging design with minimalist aesthetic">
+                        <img src="b3b3775b-5a7d-49e1-8f9f-2cb3fb15723d.jpg" alt="Marketing brochure layout with compelling visuals">
+                    </div>
+          <!-- أزرار -->
+          <button class="prev absolute top-1/2 left-2 -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full">&#10094;</button>
+          <button class="next absolute top-1/2 right-2 -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full">&#10095;</button>
+        </div>
+        <div class="p-4">
+          <h2 class="text-xl font-semibold mb-2">☕ Café Website</h2>
+          <p class="text-gray-600 text-sm">
+            A stylish café website showcasing drinks and desserts, with pre-order options and an image gallery.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- JS -->
+<script>
+document.querySelectorAll(".image-slider").forEach(slider => {
+  const images = slider.querySelectorAll(".slides img");
+  const prevBtn = slider.querySelector(".prev");
+  const nextBtn = slider.querySelector(".next");
+  let index = 0;
+  let autoPlay = true;
+  let interval;
+
+  function showImage(i) {
+    images.forEach((img, idx) => {
+      img.classList.toggle("hidden", idx !== i);
+    });
+  }
+
+  function startAutoPlay() {
+    interval = setInterval(() => {
+      if (autoPlay) {
+        index = (index + 1) % images.length;
+        showImage(index);
+      }
+    }, 5000);
+  }
+
+  prevBtn.addEventListener("click", () => {
+    index = (index - 1 + images.length) % images.length;
+    showImage(index);
+    autoPlay = false;
+  });
+
+  nextBtn.addEventListener("click", () => {
+    index = (index + 1) % images.length;
+    showImage(index);
+    autoPlay = false;
+  });
+
+  showImage(index);
+  startAutoPlay();
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Contact -->
+<section id="contact" class="py-20 text-center">
+  <h2 class="text-3xl font-semibold mb-6">Contact Me</h2>
+  <form id="contactForm" action="https://formspree.io/f/xqayzbnk" method="POST" class="max-w-xl mx-auto space-y-4">
+    <input type="text" id="name" name="name" placeholder="Your Name" class="w-full p-3 border rounded-lg" required />
+    <input type="tel" id="phone" name="phone" placeholder="Your Phone (11 digits)" class="w-full p-3 border rounded-lg" required />
+    <input type="email" id="email" name="email" placeholder="Your Email" class="w-full p-3 border rounded-lg" required />
+    <textarea id="message" name="message" placeholder="Your Message" class="w-full p-3 border rounded-lg" rows="5" required></textarea>
+    <button type="submit" class="px-6 py-3 bg-[#0ea5a4] text-white rounded-xl shadow-lg hover:bg-[#0c8685] transition">Send Message</button>
+  </form>
+  <div id="formMessage" class="mt-4 text-lg font-medium"></div>
+</section>
+
+<script>
+  const form = document.getElementById('contactForm');
+  const formMessage = document.getElementById('formMessage');
+
+  form.addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    const name = document.getElementById('name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+
+    const phonePattern = /^\d{11}$/; // exactly 11 digits
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!name || !phone || !email || !message) {
+      formMessage.textContent = "⚠ All fields are required.";
+      formMessage.className = "mt-4 text-red-600 font-medium";
+      return;
+    }
+
+    if (!phonePattern.test(phone)) {
+      formMessage.textContent = "⚠ Phone number must be exactly 11 digits.";
+      formMessage.className = "mt-4 text-red-600 font-medium";
+      return;
+    }
+
+    if (!emailPattern.test(email)) {
+      formMessage.textContent = "⚠ Please enter a valid email address.";
+      formMessage.className = "mt-4 text-red-600 font-medium";
+      return;
+    }
+
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch(form.action, {
+        method: form.method,
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        formMessage.textContent = "✅ Your message has been sent successfully!";
+        formMessage.className = "mt-4 text-green-600 font-medium";
+        form.reset();
+      } else {
+        formMessage.textContent = "❌ Something went wrong. Please try again.";
+        formMessage.className = "mt-4 text-red-600 font-medium";
+      }
+    } catch (error) {
+      formMessage.textContent = "❌ Network error. Please try again later.";
+      formMessage.className = "mt-4 text-red-600 font-medium";
+    }
+  });
+
+  // allow only digits in phone
+  document.getElementById('phone').addEventListener('input', function() {
+    this.value = this.value.replace(/[^0-9]/g, '');
+  });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Footer -->
+<footer class="py-8 bg-white/80 mt-12">
+  <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+    <div class="text-sm text-gray-700">
+      <div class="font-semibold">Webora</div>
+      <div class="text-gray-500">Design & Code</div>
+    </div>
+
+    <div class="flex flex-col md:flex-row items-center gap-6">
+      <a href="tel:+201090130498" class="text-sm hover:underline">📞 +20 1090130498</a>
+      <a href="webora46@gmail.com" class="text-sm hover:underline">📩 webora46@gmail.com</a>
+
+      <div class="flex items-center gap-3">
+        <!-- Social icons with proper colors -->
+        <a href="https://api.whatsapp.com/send?phone=201090130498" aria-label="WhatsApp" class="p-2 rounded-md hover:bg-gray-100">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp" class="w-5 h-5"/>
+        </a>
+        <a href="https://www.facebook.com/share/1722eMhFiC/" aria-label="Facebook" class="p-2 rounded-md hover:bg-gray-100">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg" alt="Facebook" class="w-5 h-5"/>
+        </a>
+        <a href="https://www.instagram.com/web__.aura?igsh=MWtmM3E5M3J2dDNoYQ==" aria-label="Instagram" class="p-2 rounded-md hover:bg-gray-100">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram" class="w-5 h-5"/>
+        </a>
+        <a href="http://tiktok.com/@vv_web_developer" aria-label="TikTok" class="p-2 rounded-md hover:bg-gray-100">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/tiktok.svg" alt="TikTok" class="w-5 h-5"/>
+        </a>
+        <a href="https://www.linkedin.com/in/webora-web-development-6b4b53258?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" aria-label="LinkedIn" class="p-2 rounded-md hover:bg-gray-100">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg" alt="LinkedIn" class="w-5 h-5"/>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</footer>
+
+
+  <script>
+    // GSAP animations
+    gsap.from("#heroTitle", { x: -200, opacity: 0, duration: 1.2, ease: "power4.out" });
+    gsap.from("#heroSubtitle", { x: 200, opacity: 0, duration: 1.2, delay: 0.3, ease: "power4.out" });
+
+    // Three.js simple 3D background animation
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById("bgCanvas"), alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    const geometry = new THREE.IcosahedronGeometry(5, 1);
+    const material = new THREE.MeshStandardMaterial({ color: 0x0ea5a4, wireframe: true });
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+
+    const light = new THREE.PointLight(0xffffff, 1);
+    light.position.set(10, 10, 10);
+    scene.add(light);
+
+    camera.position.z = 15;
+
+    function animate() {
+      requestAnimationFrame(animate);
+      mesh.rotation.x += 0.005;
+      mesh.rotation.y += 0.005;
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener("resize", () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // Slider logic (manual only)
+    document.querySelectorAll(".relative").forEach((card, cardIndex) => {
+      const images = [
+        `https://picsum.photos/500/350?random=${cardIndex*3+1}`,
+        `https://picsum.photos/500/350?random=${cardIndex*3+2}`,
+        `https://picsum.photos/500/350?random=${cardIndex*3+3}`
+
+      ];
+      let currentIndex = 0;
+      const imgTag = card.querySelector(".slider-img");
+      card.querySelector(".slider-btn.left").addEventListener("click", () => {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        imgTag.src = images[currentIndex];
+      });
+      card.querySelector(".slider-btn.right").addEventListener("click", () => {
+        currentIndex = (currentIndex + 1) % images.length;
+        imgTag.src = images[currentIndex];
+      });
+    });
+  </script>
+</body>
+</html>
